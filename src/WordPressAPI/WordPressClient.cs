@@ -30,7 +30,10 @@ namespace WordPressAPI
                 baseUri += "/";
             }
 
-            baseUri += "xmlrpc.php";
+            if (! baseUri.ToLowerInvariant().Contains("xmlrpc.php"))
+            {
+                baseUri += "xmlrpc.php";
+            }
 
             _uri = new Uri(baseUri);
             _client = new XmlRpcClient(_uri);

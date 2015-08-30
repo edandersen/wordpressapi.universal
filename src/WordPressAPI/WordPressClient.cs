@@ -647,5 +647,28 @@ namespace WordPressAPI
 
         #endregion
 
+        public async Task<bool> EditPostAsync(int blogId, WordPressPost post)
+        {
+            var param = new List<XmlRpcValue>();
+            param.Add(new XmlRpcInt(blogId));
+            param.Add(new XmlRpcString(_userName));
+            param.Add(new XmlRpcString(_password));
+            param.Add(new XmlRpcInt(Int32.Parse(post.Id)));
+            param.Add(XmlRpcConverter.MapStructFrom(post));
+
+            var results = await _client.CallRpc("wp.editPost", param);
+
+            if (results != null)
+            {
+                if (results.Value is XmlRpcBoolean)
+                {
+                    return ((XmlRpcBoolean)results.Value).BoolValue;
+                }
+            }
+
+            return false;
+
+        }
+
     }
 }

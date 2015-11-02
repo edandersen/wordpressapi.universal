@@ -697,5 +697,26 @@ namespace WordPressAPI
 
         }
 
+        public async Task<WordpressFileUploadResult> UploadFileAsync(int blogId, WordpressFile file)
+        {
+            var param = new List<XmlRpcValue>();
+            param.Add(new XmlRpcInt(blogId));
+            param.Add(new XmlRpcString(_userName));
+            param.Add(new XmlRpcString(_password));
+            param.Add(XmlRpcConverter.MapStructFrom(file));
+
+            var results = await _client.CallRpc("wp.uploadFile", param);
+
+            if (results != null)
+            {
+                if (results.Value is XmlRpcStruct)
+                {
+                    return (WordpressFileUploadResult)XmlRpcConverter.MapTo<WordpressFileUploadResult>(results.Value);
+                }
+            }
+
+            return null;
+        }
+
     }
 }

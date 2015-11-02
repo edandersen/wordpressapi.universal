@@ -113,6 +113,8 @@
     <Compile Include="Models\WordPressAuthor.cs" />
     <Compile Include="Models\WordPressBlog.cs" />
     <Compile Include="Models\WordPressComment.cs" />
+    <Compile Include="Models\WordpressFile.cs" />
+    <Compile Include="Models\WordpressFileUploadResult.cs" />
     <Compile Include="Models\WordPressOption.cs" />
     <Compile Include="Models\WordPressCustomField.cs" />
     <Compile Include="Models\WordPressEnclosure.cs" />

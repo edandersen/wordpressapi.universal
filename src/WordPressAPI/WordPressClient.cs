@@ -670,5 +670,32 @@ namespace WordPressAPI
 
         }
 
+        public async Task<int> NewPostAsync(int blogId, WordPressPost post)
+        {
+            var param = new List<XmlRpcValue>();
+            param.Add(new XmlRpcInt(blogId));
+            param.Add(new XmlRpcString(_userName));
+            param.Add(new XmlRpcString(_password));
+            param.Add(XmlRpcConverter.MapStructFrom(post));
+
+            var results = await _client.CallRpc("wp.newPost", param);
+
+            if (results != null)
+            {
+                if (results.Value is XmlRpcInt)
+                {
+                    return ((XmlRpcInt)results.Value).IntValue;
+                }
+                if (results.Value is XmlRpcString)
+                {
+                    return int.Parse(((XmlRpcString)results.Value).StringValue);
+                }
+
+            }
+
+            return 0;
+
+        }
+
     }
 }
